@@ -106,10 +106,23 @@ public class ModelloCli {
             System.exit(1);
         }
 
+        if (StringUtils.equalsIgnoreCase(javaSource, "true") || StringUtils.equalsIgnoreCase(javaSource, "false")) {
+            // The old useJava5 parameter at this position
+            System.err.println("Missing required parameter: Java Source (replacing the old \"Use Java5\" parameter)");
+
+            usage();
+
+            System.exit(1);
+        }
+
         parameters.put(ModelloParameterConstants.OUTPUT_JAVA_SOURCE, javaSource);
 
         if (args.length > 6) {
             parameters.put(ModelloParameterConstants.ENCODING, args[6]);
+        }
+
+        if (args.length > 7) {
+            parameters.put(ModelloParameterConstants.DOM_AS_XPP3, args[7]);
         }
     }
 
@@ -119,6 +132,6 @@ public class ModelloCli {
 
     private static void usage() {
         System.err.println("Usage: modello <model> <outputType> <output directory> <modelVersion> <packageWithVersion>"
-                + "<javaSource> [<encoding>]");
+                + " <javaSource> [<encoding> [<domAsXpp3>]]");
     }
 }
