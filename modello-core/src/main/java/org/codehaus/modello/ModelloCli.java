@@ -23,8 +23,10 @@ package org.codehaus.modello;
  */
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.XmlStreamReader;
@@ -124,6 +126,22 @@ public class ModelloCli {
         if (args.length > 7) {
             parameters.put(ModelloParameterConstants.DOM_AS_XPP3, args[7]);
         }
+
+        if (args.length > 8) {
+            parameters.put(ModelloParameterConstants.VELOCITY_BASEDIR, args[8]);
+        }
+
+        if (args.length > 9) {
+            parameters.put(ModelloParameterConstants.VELOCITY_TEMPLATES, args[9]);
+        }
+
+        if (args.length > 10 && StringUtils.isNotEmpty(args[10])) {
+            parameters.put(ModelloParameterConstants.VELOCITY_PARAMETERS, (HashMap<String, String>)
+                    Arrays.stream(args[10].split(","))
+                            .filter(s -> s.contains("="))
+                            .map(s -> s.split("=", 2))
+                            .collect(Collectors.toMap(e -> e[0], e -> e[1])));
+        }
     }
 
     // ----------------------------------------------------------------------
@@ -131,7 +149,8 @@ public class ModelloCli {
     // ----------------------------------------------------------------------
 
     private static void usage() {
-        System.err.println("Usage: modello <model> <outputType> <output directory> <modelVersion> <packageWithVersion>"
-                + " <javaSource> [<encoding> [<domAsXpp3>]]");
+        System.err.println(
+                "Usage: modello <model> <outputType> <output directory> <modelVersion> <packageWithVersion>"
+                        + " <javaSource> [<encoding> [<domAsXpp3> [<velocityBaseDir> <velocityTemplates> <velocityParameters>]]] ");
     }
 }
