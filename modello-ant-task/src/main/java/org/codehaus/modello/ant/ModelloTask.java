@@ -242,9 +242,9 @@ public class ModelloTask extends Task {
 
             // Attach Velocity configs if provided
             if (velocityBasedir != null) {
-                parameters.put("modello.velocity.basedir", velocityBasedir.getAbsolutePath());
-                parameters.put("modello.velocity.templates", String.join(",", templates));
-                parameters.put("modello.velocity.parameters", velocityParams);
+                parameters.put(ModelloParameterConstants.VELOCITY_BASEDIR, velocityBasedir.getAbsolutePath());
+                parameters.put(ModelloParameterConstants.VELOCITY_TEMPLATES, String.join(",", templates));
+                parameters.put(ModelloParameterConstants.VELOCITY_PARAMETERS, velocityParams);
             }
 
             for (File modelFile : models) {
